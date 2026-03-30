@@ -11,6 +11,7 @@ import { WorkTimelinePoint } from "@types";
 interface TimelineLayout {
   pointScale: number;
   anchorOffset: number;
+  textNudgeX: number;
   yearFontSize: number;
   titleFontSize: number;
   titleMaxWidth: number;
@@ -39,13 +40,14 @@ const TimelinePoint = ({
   }, [point.position, layout.anchorOffset]);
 
   const textAlign = point.position === 'left' ? 'right' : 'left';
+  const sideOffset = point.position === 'left' ? -layout.textNudgeX : layout.textNudgeX;
 
   const textProps: Partial<TextProps> = useMemo(() => ({
     font: "/Vercetti-Regular.woff",
     color: "#111827",
     anchorX: textAlign,
     fillOpacity: 1 - 0.8 * diff,
-    outlineWidth: 0.008,
+    outlineWidth: 0.01,
     outlineColor: "#ffffff",
   }), [textAlign, diff]);
 
@@ -54,8 +56,8 @@ const TimelinePoint = ({
     font: "/soria-font.ttf",
     fontSize: layout.titleFontSize,
     maxWidth: layout.titleMaxWidth,
-    lineHeight: 1.05,
-    outlineWidth: 0.012,
+    lineHeight: 1.1,
+    outlineWidth: 0.014,
   }), [textProps, layout.titleFontSize, layout.titleMaxWidth]);
 
   return (
@@ -66,11 +68,11 @@ const TimelinePoint = ({
       </Box>
       <group>
         <group position={getPoint}>
-          <Text {...textProps} fontSize={layout.yearFontSize} position={[-diff / 2, layout.yearY, 0]}>
+          <Text {...textProps} fontSize={layout.yearFontSize} position={[sideOffset - diff / 2, layout.yearY, 0]}>
             {point.year}
           </Text>
           <group position={[0, layout.titleY, 0]}>
-            <Text {...titleProps} position={[0, -diff / 2, 0]}>
+            <Text {...titleProps} position={[sideOffset, -diff / 2, 0]}>
               {point.title}
             </Text>
             <Text
@@ -78,8 +80,8 @@ const TimelinePoint = ({
               color="#334155"
               fontSize={layout.subtitleFontSize}
               maxWidth={layout.subtitleMaxWidth}
-              lineHeight={1.2}
-              position={[0, layout.subtitleY - diff, 0]}>
+              lineHeight={1.25}
+              position={[sideOffset, layout.subtitleY - diff, 0]}>
               {point.subtitle}
             </Text>
           </group>
@@ -98,45 +100,48 @@ const Timeline = ({ progress }: { progress: number }) => {
   const layout = useMemo<TimelineLayout>(() => {
     if (size.width < 520) {
       return {
-        pointScale: 0.24,
-        anchorOffset: 0.62,
-        yearFontSize: 0.115,
-        titleFontSize: 0.18,
-        titleMaxWidth: 1.4,
-        subtitleFontSize: 0.092,
-        subtitleMaxWidth: 1.55,
-        yearY: 0.07,
-        titleY: -0.23,
-        subtitleY: -0.19,
+        pointScale: 0.32,
+        anchorOffset: 0.72,
+        textNudgeX: 0.03,
+        yearFontSize: 0.16,
+        titleFontSize: 0.235,
+        titleMaxWidth: 2.1,
+        subtitleFontSize: 0.12,
+        subtitleMaxWidth: 2.15,
+        yearY: 0.11,
+        titleY: -0.31,
+        subtitleY: -0.26,
       };
     }
 
     if (size.width < 1024) {
       return {
-        pointScale: 0.31,
-        anchorOffset: 0.7,
-        yearFontSize: 0.135,
-        titleFontSize: 0.205,
-        titleMaxWidth: 1.6,
-        subtitleFontSize: 0.1,
-        subtitleMaxWidth: 1.7,
-        yearY: 0.08,
-        titleY: -0.24,
-        subtitleY: -0.19,
+        pointScale: 0.4,
+        anchorOffset: 0.82,
+        textNudgeX: 0.04,
+        yearFontSize: 0.175,
+        titleFontSize: 0.27,
+        titleMaxWidth: 2.3,
+        subtitleFontSize: 0.13,
+        subtitleMaxWidth: 2.35,
+        yearY: 0.12,
+        titleY: -0.34,
+        subtitleY: -0.28,
       };
     }
 
     return {
-      pointScale: 0.38,
-      anchorOffset: 0.84,
-      yearFontSize: 0.16,
-      titleFontSize: 0.235,
-      titleMaxWidth: 1.95,
-      subtitleFontSize: 0.115,
-      subtitleMaxWidth: 2.1,
-      yearY: 0.1,
-      titleY: -0.26,
-      subtitleY: -0.21,
+      pointScale: 0.52,
+      anchorOffset: 0.94,
+      textNudgeX: 0.05,
+      yearFontSize: 0.2,
+      titleFontSize: 0.31,
+      titleMaxWidth: 2.7,
+      subtitleFontSize: 0.145,
+      subtitleMaxWidth: 2.8,
+      yearY: 0.14,
+      titleY: -0.37,
+      subtitleY: -0.31,
     };
   }, [size.width]);
 

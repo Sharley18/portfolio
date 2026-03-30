@@ -27,7 +27,7 @@ export const WORK_TIMELINE: WorkTimelinePoint[] = [
     point: new THREE.Vector3(0, -1, -10),
     year: '2026',
     title: 'Transition to Digital Marketing',
-    subtitle: 'Resigned from data analytics roles to pursue digital marketing as a full-time career',
+    subtitle: 'Resigned from analytics roles and moved into digital marketing full-time',
     position: 'left',
   },
   {
