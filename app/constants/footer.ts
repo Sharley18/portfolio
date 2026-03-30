@@ -23,7 +23,7 @@ export const FOOTER_LINKS: FooterLink[] = [
     name: 'Media Kit',
     hoverText: 'View brand profile',
     icon: 'icons/file.svg',
-    url: 'https://www.verginasharley.in/media-kit',
+    url: 'https://verginasharley.me/media-kit',
   },
   {
     name: 'Resume',

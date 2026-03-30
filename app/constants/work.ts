@@ -5,7 +5,7 @@ export const WORK_TIMELINE: WorkTimelinePoint[] = [
   {
     point: new THREE.Vector3(0, 0, 0),
     year: '2025',
-    title: 'Sri Ramakrishna College\nof Arts & Science',
+    title: 'Sri Ramakrishna College of Arts & Science',
     subtitle: 'Graduated in 2025',
     position: 'right',
   },
@@ -19,15 +19,15 @@ export const WORK_TIMELINE: WorkTimelinePoint[] = [
   {
     point: new THREE.Vector3(-3, -1, -6),
     year: '2025',
-    title: 'New American Company,\nCoimbatore',
+    title: 'New American Company, Coimbatore',
     subtitle: 'Data Analyst',
     position: 'left',
   },
   {
     point: new THREE.Vector3(0, -1, -10),
     year: '2026',
-    title: 'Transition to\nDigital Marketing',
-    subtitle: 'Resigned from data analytics roles to pursue her digital marketing passion full-time',
+    title: 'Transition to Digital Marketing',
+    subtitle: 'Resigned from data analytics roles to pursue digital marketing as a full-time career',
     position: 'left',
   },
   {

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description:
     "Detailed digital marketing case studies by Vergina Sharley MS, focused on practical strategy and execution in Coimbatore, India.",
   alternates: {
-    canonical: "/case-studies",
+    canonical: "https://verginasharley.me/case-studies",
   },
 };
 

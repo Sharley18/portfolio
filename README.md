@@ -3,7 +3,9 @@ Hello there! I am Vergina Sharley MS, a digital marketing strategist based in Co
 
 This is a 3D portfolio website focused on digital marketing strategy, SEO, and campaign storytelling.
 
-Checkout the live version at [verginasharley.in](https://www.verginasharley.in/)
+Checkout the live version at [verginasharley.me](https://verginasharley.me/).
+
+Alternate deployment domain: [verginasharley.vercel.app](https://verginasharley.vercel.app/)
 
 ## Tech Stack
 

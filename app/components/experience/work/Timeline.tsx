@@ -3,23 +3,40 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { usePortalStore } from "@stores";
 import gsap from "gsap";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { isMobile } from "react-device-detect";
 import * as THREE from "three";
 
 import { WORK_TIMELINE } from "@constants";
 import { WorkTimelinePoint } from "@types";
 
-const reusableLeft = new THREE.Vector3(-0.7, 0.08, -0.1);
-const reusableRight = new THREE.Vector3(0.7, 0.08, -0.1);
+interface TimelineLayout {
+  pointScale: number;
+  anchorOffset: number;
+  yearFontSize: number;
+  titleFontSize: number;
+  titleMaxWidth: number;
+  subtitleFontSize: number;
+  subtitleMaxWidth: number;
+  yearY: number;
+  titleY: number;
+  subtitleY: number;
+}
 
-const TimelinePoint = ({ point, diff }: { point: WorkTimelinePoint, diff: number }) => {
+const TimelinePoint = ({
+  point,
+  diff,
+  layout,
+}: {
+  point: WorkTimelinePoint;
+  diff: number;
+  layout: TimelineLayout;
+}) => {
   const getPoint = useMemo(() => {
     switch (point.position) {
-      case 'left': return reusableLeft;
-      case 'right': return reusableRight;
+      case 'left': return new THREE.Vector3(-layout.anchorOffset, 0.08, -0.1);
+      case 'right': return new THREE.Vector3(layout.anchorOffset, 0.08, -0.1);
       default: return new THREE.Vector3();
     }
-  }, [point.position]);
+  }, [point.position, layout.anchorOffset]);
 
   const textAlign = point.position === 'left' ? 'right' : 'left';
 
@@ -35,34 +52,34 @@ const TimelinePoint = ({ point, diff }: { point: WorkTimelinePoint, diff: number
   const titleProps = useMemo(() => ({
     ...textProps,
     font: "/soria-font.ttf",
-    fontSize: isMobile ? 0.2 : 0.24,
-    maxWidth: isMobile ? 1.55 : 1.9,
+    fontSize: layout.titleFontSize,
+    maxWidth: layout.titleMaxWidth,
     lineHeight: 1.05,
     outlineWidth: 0.012,
-  }), [textProps, isMobile]);
+  }), [textProps, layout.titleFontSize, layout.titleMaxWidth]);
 
   return (
-    <group position={point.point} scale={isMobile ? 0.26 : 0.4}>
+    <group position={point.point} scale={layout.pointScale}>
       <Box args={[0.2, 0.2, 0.2]} position={[0, 0, -0.1]} scale={[1 - diff, 1 - diff, 1 - diff]}>
         <meshBasicMaterial color="#0f172a" wireframe />
         <Edges color="#0f172a" lineWidth={1.5} />
       </Box>
       <group>
         <group position={getPoint}>
-          <Text {...textProps} fontSize={isMobile ? 0.14 : 0.16} position={[-diff / 2, 0.05, 0]}>
+          <Text {...textProps} fontSize={layout.yearFontSize} position={[-diff / 2, layout.yearY, 0]}>
             {point.year}
           </Text>
-          <group position={[0, -0.26, 0]}>
+          <group position={[0, layout.titleY, 0]}>
             <Text {...titleProps} position={[0, -diff / 2, 0]}>
               {point.title}
             </Text>
             <Text
               {...textProps}
               color="#334155"
-              fontSize={isMobile ? 0.1 : 0.12}
-              maxWidth={isMobile ? 1.7 : 2}
+              fontSize={layout.subtitleFontSize}
+              maxWidth={layout.subtitleMaxWidth}
               lineHeight={1.2}
-              position={[0, -0.2 - diff, 0]}>
+              position={[0, layout.subtitleY - diff, 0]}>
               {point.subtitle}
             </Text>
           </group>
@@ -73,9 +90,55 @@ const TimelinePoint = ({ point, diff }: { point: WorkTimelinePoint, diff: number
 };
 
 const Timeline = ({ progress }: { progress: number }) => {
-  const { camera } = useThree();
+  const { camera, size } = useThree();
   const isActive = usePortalStore((state) => state.activePortalId === 'work');
   const timeline = useMemo(() => WORK_TIMELINE, []);
+  const isCompact = size.width < 900;
+
+  const layout = useMemo<TimelineLayout>(() => {
+    if (size.width < 520) {
+      return {
+        pointScale: 0.24,
+        anchorOffset: 0.62,
+        yearFontSize: 0.115,
+        titleFontSize: 0.18,
+        titleMaxWidth: 1.4,
+        subtitleFontSize: 0.092,
+        subtitleMaxWidth: 1.55,
+        yearY: 0.07,
+        titleY: -0.23,
+        subtitleY: -0.19,
+      };
+    }
+
+    if (size.width < 1024) {
+      return {
+        pointScale: 0.31,
+        anchorOffset: 0.7,
+        yearFontSize: 0.135,
+        titleFontSize: 0.205,
+        titleMaxWidth: 1.6,
+        subtitleFontSize: 0.1,
+        subtitleMaxWidth: 1.7,
+        yearY: 0.08,
+        titleY: -0.24,
+        subtitleY: -0.19,
+      };
+    }
+
+    return {
+      pointScale: 0.38,
+      anchorOffset: 0.84,
+      yearFontSize: 0.16,
+      titleFontSize: 0.235,
+      titleMaxWidth: 1.95,
+      subtitleFontSize: 0.115,
+      subtitleMaxWidth: 2.1,
+      yearY: 0.1,
+      titleY: -0.26,
+      subtitleY: -0.21,
+    };
+  }, [size.width]);
 
   const curve = useMemo(() => new THREE.CatmullRomCurve3(timeline.map(p => p.point), false), [timeline]);
   const curvePoints = useMemo(() => curve.getPoints(500), [curve]);
@@ -88,9 +151,9 @@ const Timeline = ({ progress }: { progress: number }) => {
   useFrame((_, delta) => {
     if (isActive) {
       const position = curve.getPoint(progress);
-      camera.position.x = THREE.MathUtils.damp(camera.position.x, (isMobile ? -1 : -2) + position.x, 4, delta);
+      camera.position.x = THREE.MathUtils.damp(camera.position.x, (isCompact ? -1 : -2) + position.x, 4, delta);
       camera.position.y = THREE.MathUtils.damp(camera.position.y, -39 + position.z, 4, delta);
-      camera.position.z = THREE.MathUtils.damp(camera.position.z, 13 - position.y, 4, delta);
+      camera.position.z = THREE.MathUtils.damp(camera.position.z, (isCompact ? 12.2 : 13) - position.y, 4, delta);
     }
   });
 
@@ -147,7 +210,7 @@ const Timeline = ({ progress }: { progress: number }) => {
       <group ref={groupRef}>
         {visibleTimelinePoints.map((point, i) => {
           const diff = Math.min(2 * Math.max(i - (progress * (timeline.length - 1)), 0), 1);
-          return <TimelinePoint point={point} key={i} diff={diff} />;
+          return <TimelinePoint point={point} key={i} diff={diff} layout={layout} />;
         })}
       </group>
     </group>

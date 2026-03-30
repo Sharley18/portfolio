@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /_next/
 
-Sitemap: https://www.verginasharley.in/sitemap.xml
+Sitemap: https://verginasharley.me/sitemap.xml

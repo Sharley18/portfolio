@@ -14,13 +14,16 @@ const vercettiFont = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.verginasharley.in"),
+  metadataBase: new URL("https://verginasharley.me"),
   title: "Vergina Sharley MS | Digital Marketing",
   description: "Vergina Sharley MS is a digital marketing strategist from Coimbatore, India, focused on SEO, paid ads, social media, and content-led brand growth.",
-  keywords: "Vergina Sharley MS, digital marketing, digital marketer in Coimbatore, SEO specialist India, social media marketing Coimbatore, performance marketing, content strategy, brand growth",
+  keywords: "Vergina Sharley MS, digital marketing strategist, Coimbatore digital marketer, SEO consultant Coimbatore, social media strategy India, performance marketing, content strategy, local SEO Coimbatore",
   authors: [{ name: "Vergina Sharley MS" }],
   creator: "Vergina Sharley MS",
   publisher: "Vergina Sharley MS",
+  alternates: {
+    canonical: "https://verginasharley.me",
+  },
   formatDetection: {
     email: false,
     address: false,
@@ -39,7 +42,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Vergina Sharley MS | Digital Marketing Strategist",
     description: "Digital marketing portfolio for Vergina Sharley MS, based in Coimbatore, India.",
-    url: "https://www.verginasharley.in",
+    url: "https://verginasharley.me",
     siteName: "Vergina Sharley MS Portfolio",
     images: ["/opengraph-image.png"],
     locale: "en_IN",
