@@ -1,28 +1,80 @@
 # Vergina Sharley MS Portfolio
-Hello there! I am Vergina Sharley MS, a digital marketing strategist based in Coimbatore, India.
 
-This is a 3D portfolio website focused on digital marketing strategy, SEO, and campaign storytelling.
+Modern 3D portfolio for Vergina Sharley MS, focused on digital marketing strategy, case studies, and career journey storytelling.
 
-Checkout the live version at [verginasharley.me](https://verginasharley.me/).
+## Live Domains
 
-Alternate deployment domain: [verginasharley.vercel.app](https://verginasharley.vercel.app/)
+- Primary: [https://verginasharley.me](https://verginasharley.me)
+- Alternate: [https://verginasharley.vercel.app](https://verginasharley.vercel.app)
+
+## Highlights
+
+- Interactive 3D experience built with React Three Fiber and GSAP.
+- Responsive case-study system using MDX and slug routes.
+- Clean SEO setup for production domain indexing.
+- Career timeline and project cards tuned for readable typography across devices.
 
 ## Tech Stack
 
-- Next.js
-- React
-- React-three-fiber
-- DREI
+- Next.js 16.2.1
+- React 19
+- TypeScript
+- @react-three/fiber + @react-three/drei
 - GSAP
 - Zustand
-- Tailwind
+- Tailwind CSS
+- MDX via @next/mdx
 
-## Preview
-Some of the sample images from the app. Better to check it out live!
+## Project Routes
 
-<img width="1242" alt="image" src="https://github.com/user-attachments/assets/877b0685-8d86-4f8b-b123-f3cc17d46fc7" />
-<img width="1241" alt="image" src="https://github.com/user-attachments/assets/09a92647-1781-4124-ba3f-1d6fb66f6974" />
-<img width="1241" alt="image" src="https://github.com/user-attachments/assets/a15017f4-f1f2-459e-b895-b3c14703635b" />
-<img width="1428" height="830" alt="image" src="https://github.com/user-attachments/assets/9f78c2e8-991c-4507-8ffb-72e61513c031" />
+- Home: `/`
+- Case Studies Index: `/case-studies`
+- Case Study Detail: `/case-studies/[slug]`
 
+Example:
+
+- `/case-studies/hospitality-creator-collab`
+
+## Local Development
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Run dev server:
+
+```bash
+npm run dev
+```
+
+3. Open:
+
+```text
+http://localhost:3000
+```
+
+## Scripts
+
+- `npm run dev` - start development server
+- `npm run build` - create production build
+- `npm run start` - run production server
+- `npm run lint` - run ESLint
+
+## Case Study Authoring
+
+- MDX content lives in `app/case-studies/content/*.mdx`
+- Case-study metadata mapping lives in `app/case-studies/caseStudies.ts`
+- Slug route rendering lives in `app/case-studies/[slug]/page.tsx`
+
+## SEO Notes
+
+- Primary canonical domain is `verginasharley.me`
+- Sitemap: `public/sitemap.xml`
+- Robots: `public/robots.txt`
+
+## About the Content
+
+Case studies are written as practical execution notes focused on strategy, process, and outcomes. Confidential client data and inflated claims are intentionally excluded.
 
